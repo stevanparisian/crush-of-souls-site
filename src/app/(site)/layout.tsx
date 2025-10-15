@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 import { NavBar } from '@/components/NavBar';
 import { Footer } from '@/components/Footer';
+import { BackgroundVideo } from '@/components/BackgroundVideo';
 
 export const metadata: Metadata = {
   title: 'Crush of Souls',
@@ -14,10 +15,13 @@ export const metadata: Metadata = {
 
 export default function SiteLayout({ children }: { children: ReactNode }) {
   return (
-    <div className="mx-auto max-w-6xl px-4">
-      <NavBar />
-      <main className="py-10">{children}</main>
-      <Footer />
-    </div>
+    <>
+      <BackgroundVideo />
+      <div className="relative mx-auto max-w-6xl px-4">
+        <NavBar />
+        <main className="py-10">{children}</main>
+        <Footer />
+      </div>
+    </>
   );
 }
