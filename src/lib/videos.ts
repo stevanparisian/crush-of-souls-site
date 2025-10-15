@@ -33,26 +33,37 @@ async function fetchFromYouTube(): Promise<MediaVideo[]> {
 
 async function fetchViaApi(target: string): Promise<MediaVideo[]> {
   try {
-    const results = await searchVideos(target, { maxResults: 50, type: 'video', order: 'date' });
-    if (!Array.isArray(results) || results.length === 0) return [];
+    const aggregated: MediaVideo[] = [];
+    let pageToken: string | undefined;
 
-    const mapped: MediaVideo[] = [];
+    do {
+      const { items, nextPageToken } = await searchVideos(target, {
+        maxResults: 50,
+        type: 'video',
+        order: 'date',
+        pageToken,
+      });
 
-    for (const item of results) {
-      const videoId =
-        typeof item?.id === 'string'
-          ? item.id
-          : typeof item?.id?.videoId === 'string'
-            ? item.id.videoId
-            : undefined;
+      if (!Array.isArray(items) || items.length === 0) break;
 
-      if (!videoId) continue;
+      for (const item of items) {
+        const videoId =
+          typeof item?.id === 'string'
+            ? item.id
+            : typeof item?.id?.videoId === 'string'
+              ? item.id.videoId
+              : undefined;
 
-      const title = item?.snippet?.title as string | undefined;
-      mapped.push({ id: videoId, title });
-    }
+        if (!videoId) continue;
 
-    return mapped;
+        const title = item?.snippet?.title as string | undefined;
+        aggregated.push({ id: videoId, title });
+      }
+
+      pageToken = nextPageToken;
+    } while (pageToken && aggregated.length < 200);
+
+    return aggregated;
   } catch {
     return [];
   }
