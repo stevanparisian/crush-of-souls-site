@@ -26,6 +26,7 @@ npm run build
 Créer un fichier `.env.local` (non commité) :
 ```
 # Songkick
+# Optionnel (ID/slug par défaut déjà pris en charge)
 SONGKICK_ARTIST_ID=10207079
 SONGKICK_ARTIST_SLUG=crush-of-souls
 SONGKICK_API_KEY=xxx

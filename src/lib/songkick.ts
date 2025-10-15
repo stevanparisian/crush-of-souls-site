@@ -3,7 +3,8 @@ import 'server-only';
 import type { Event } from '@/components/EventCard';
 
 const API = 'https://api.songkick.com/api/3.0';
-const ARTIST_ID = process.env.SONGKICK_ARTIST_ID;
+const DEFAULT_ARTIST_ID = '10207079';
+const ARTIST_ID = process.env.SONGKICK_ARTIST_ID ?? DEFAULT_ARTIST_ID;
 const ARTIST_SLUG = process.env.SONGKICK_ARTIST_SLUG ?? 'crush-of-souls';
 const KEY = process.env.SONGKICK_API_KEY;
 
