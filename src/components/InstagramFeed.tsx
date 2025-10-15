@@ -17,12 +17,28 @@ declare global {
 
 type InstagramFeedProps = {
   posts: InstagramPost[];
+  profileUsername?: string;
 };
 
-export function InstagramFeed({ posts }: InstagramFeedProps) {
+export function InstagramFeed({ posts, profileUsername }: InstagramFeedProps) {
   useEffect(() => {
-    window.instgrm?.Embeds?.process();
+    if (posts.length > 0) {
+      window.instgrm?.Embeds?.process();
+    }
   }, [posts]);
+
+  if (posts.length === 0 && profileUsername) {
+    return (
+      <div className="overflow-hidden rounded-2xl border border-zinc-800 bg-black/60 shadow-lg shadow-black/30">
+        <iframe
+          title={`Instagram ${profileUsername}`}
+          src={`https://www.instagram.com/${profileUsername}/embed/`}
+          className="h-[620px] w-full"
+          allow="autoplay; clipboard-write; encrypted-media; picture-in-picture"
+        />
+      </div>
+    );
+  }
 
   if (posts.length === 0) {
     return <p className="text-zinc-400">Aucun post Instagram pour le moment.</p>;
@@ -59,4 +75,3 @@ export function InstagramFeed({ posts }: InstagramFeedProps) {
     </>
   );
 }
-

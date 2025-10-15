@@ -9,10 +9,7 @@ export type InstagramPost = {
  * Posts Instagram affichés dans la page News.
  * Remplace les entrées par les URLs officielles de Crush of Souls.
  */
-export const instagramPosts: InstagramPost[] = [
-  {
-    url: 'https://www.instagram.com/p/POST_ID_A_REMPLACER/',
-    caption: 'Remplace ce post par un lien Instagram officiel.',
-  },
-];
+export const instagramPosts: InstagramPost[] = [];
 
+/** Utilise le compte officiel pour l’embed du profil complet. */
+export const instagramProfileUsername = 'crush_of_souls';

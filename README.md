@@ -7,7 +7,7 @@ Base applicative professionnelle pour le site officiel de Crush of Souls. Le pro
 - Pages prêtes : Home, Tour, Music, News, Media, Contact.
 - Modules utilitaires côté serveur (`src/lib/*.ts`) pour brancher Songkick, Spotify et YouTube.
 - Gestion manuelle des concerts via `src/data/events.ts`, fusionnée avec Songkick si dispo.
-- Intégration galerie Instagram gérée depuis `src/data/instagram.ts`.
+- Intégration Instagram : posts sélectionnés + profil embarqué depuis `src/data/instagram.ts`.
 - Galerie vidéo YouTube maintenue dans `src/data/videos.ts`.
 - ISR configuré (`revalidate`) pour les pages connectées aux APIs externes.
 - Assets SEO de base (`public/logo.svg`, `public/og-image.jpg`) et métadonnées globales.
@@ -56,7 +56,7 @@ src/
 │  └─ contact/page.tsx     # /contact
 ├─ components/             # UI réutilisable (NavBar, Section, EventCard…)
 ├─ data/events.ts          # Concerts saisis à la main
-├─ data/instagram.ts       # Posts Instagram intégrés dans /news
+├─ data/instagram.ts       # Posts / profil Instagram intégrés dans /news
 ├─ data/videos.ts          # Clips YouTube intégrés dans /media
 ├─ lib/                    # Clients & agrégateurs côté serveur
 └─ styles/globals.css      # Tailwind + palette sombre
@@ -86,7 +86,7 @@ Chaque module renvoie des données prêtes à mapper dans les pages (`Tour` util
 ## Roadmap suggérée
 1. Brancher Songkick avec les vraies clés et valider `/tour`.
 2. Saisir/mettre à jour les dates dans `src/data/events.ts`.
-3. Mettre à jour les posts Instagram dans `src/data/instagram.ts`.
+3. Mettre à jour le profil/posts Instagram dans `src/data/instagram.ts`.
 4. Mettre à jour les vidéos dans `src/data/videos.ts`.
 5. Intégrer Spotify (ID artiste) + design des releases sur `/music`.
 6. Alimenter `/media` via YouTube (`searchVideos`) ou galerie statique.
@@ -111,11 +111,11 @@ Le site classe automatiquement les dates à venir et affiche, s’il n’y en a 
 
 Toutes les dates (à venir comme passées) sont visibles sur `/tour` — les concerts passés apparaissent dans la section « Archives ».
 
-## Gérer les posts Instagram
+## Gérer Instagram (profil & posts)
 
-- Renseigne la liste de posts dans `src/data/instagram.ts` en utilisant l’URL publique du post (`https://www.instagram.com/p/ID/`).
-- Optionnel : ajoute un champ `caption` pour afficher un texte sous l’embed.
-- La page `/news` convertit automatiquement ces liens en embeds officiels Instagram.
+- `instagramProfileUsername` (dans `src/data/instagram.ts`) contrôle l’embed du profil (ex. `crush_of_souls`).
+- Pour mettre en avant des posts précis, renseigne la liste `instagramPosts` avec les URLs publiques (`https://www.instagram.com/p/ID/`), et ajoute `caption` si nécessaire.
+- La page `/news` affiche soit le profil intégré, soit une grille de posts si la liste est remplie.
 
 ## Actualiser les vidéos YouTube
 

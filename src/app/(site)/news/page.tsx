@@ -1,5 +1,5 @@
 import { InstagramFeed } from '@/components/InstagramFeed';
-import { instagramPosts } from '@/data/instagram';
+import { instagramPosts, instagramProfileUsername } from '@/data/instagram';
 
 export default function NewsPage() {
   return (
@@ -10,7 +10,7 @@ export default function NewsPage() {
         <code className="mx-1 rounded bg-zinc-900 px-2 py-0.5 text-[0.8rem]">src/data/instagram.ts</code>
         pour mettre à jour cette section.
       </p>
-      <InstagramFeed posts={instagramPosts} />
+      <InstagramFeed posts={instagramPosts} profileUsername={instagramProfileUsername} />
     </div>
   );
 }
