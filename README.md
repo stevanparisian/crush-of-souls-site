@@ -27,6 +27,7 @@ Créer un fichier `.env.local` (non commité) :
 ```
 # Songkick
 SONGKICK_ARTIST_ID=10207079
+SONGKICK_ARTIST_SLUG=crush-of-souls
 SONGKICK_API_KEY=xxx
 
 # Spotify
@@ -55,7 +56,7 @@ src/
 ```
 
 ## Intégrations API
-- `src/lib/songkick.ts` : récupère les concerts via `SONGKICK_*`.
+- `src/lib/songkick.ts` : récupère les concerts via `SONGKICK_*` (tente l’API si clé dispo, sinon scrape la page publique).
 - `src/lib/spotify.ts` : échange client credentials → releases Spotify.
 - `src/lib/youtube.ts` : recherche vidéos d’une chaîne ou requête.
 
