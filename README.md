@@ -7,6 +7,7 @@ Base applicative professionnelle pour le site officiel de Crush of Souls. Le pro
 - Pages prêtes : Home, Tour, Music, News, Media, Contact.
 - Modules utilitaires côté serveur (`src/lib/*.ts`) pour brancher Songkick, Spotify et YouTube.
 - Gestion manuelle des concerts via `src/data/events.ts`, fusionnée avec Songkick si dispo.
+- Intégration galerie Instagram gérée depuis `src/data/instagram.ts`.
 - ISR configuré (`revalidate`) pour les pages connectées aux APIs externes.
 - Assets SEO de base (`public/logo.svg`, `public/og-image.jpg`) et métadonnées globales.
 
@@ -54,6 +55,7 @@ src/
 │  └─ contact/page.tsx     # /contact
 ├─ components/             # UI réutilisable (NavBar, Section, EventCard…)
 ├─ data/events.ts          # Concerts saisis à la main
+├─ data/instagram.ts       # Posts Instagram intégrés dans /news
 ├─ lib/                    # Clients & agrégateurs côté serveur
 └─ styles/globals.css      # Tailwind + palette sombre
 ```
@@ -82,10 +84,11 @@ Chaque module renvoie des données prêtes à mapper dans les pages (`Tour` util
 ## Roadmap suggérée
 1. Brancher Songkick avec les vraies clés et valider `/tour`.
 2. Saisir/mettre à jour les dates dans `src/data/events.ts`.
-3. Intégrer Spotify (ID artiste) + design des releases sur `/music`.
-3. Alimenter `/media` via YouTube (`searchVideos`) ou galerie statique.
-4. Construire module News (RSS, CMS headless ou saisie manuelle).
-5. Ajouter Sitemap/robots, analytics et éventuels formulaires (newsletter, merch).
+3. Mettre à jour les posts Instagram dans `src/data/instagram.ts`.
+4. Intégrer Spotify (ID artiste) + design des releases sur `/music`.
+5. Alimenter `/media` via YouTube (`searchVideos`) ou galerie statique.
+6. Construire module News (RSS, CMS headless ou saisie manuelle).
+7. Ajouter Sitemap/robots, analytics et éventuels formulaires (newsletter, merch).
 
 ## Éditer les concerts manuellement
 
@@ -104,5 +107,11 @@ Les dates visibles sur `/tour` proviennent d’abord de `src/data/events.ts`. Aj
 Le site classe automatiquement les dates à venir et affiche, s’il n’y en a plus, les derniers concerts connus (Songkick ou saisie manuelle). Pense à utiliser un `id` unique pour éviter les doublons.
 
 Toutes les dates (à venir comme passées) sont visibles sur `/tour` — les concerts passés apparaissent dans la section « Archives ».
+
+## Gérer les posts Instagram
+
+- Renseigne la liste de posts dans `src/data/instagram.ts` en utilisant l’URL publique du post (`https://www.instagram.com/p/ID/`).
+- Optionnel : ajoute un champ `caption` pour afficher un texte sous l’embed.
+- La page `/news` convertit automatiquement ces liens en embeds officiels Instagram.
 
 Prêt pour itérations créatives (animations, typographie custom, intégrations presse/merch, automation via scripts cron ou MCP).

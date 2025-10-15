@@ -1,23 +1,16 @@
-export default async function NewsPage() {
-  const posts: { title: string; url: string }[] = [];
+import { InstagramFeed } from '@/components/InstagramFeed';
+import { instagramPosts } from '@/data/instagram';
 
+export default function NewsPage() {
   return (
     <div>
       <h1 className="mb-6 text-3xl font-bold uppercase tracking-wide">News</h1>
-      {posts.length === 0 ? (
-        <p className="text-zinc-400">Aucun article pour l’instant.</p>
-      ) : (
-        <ul className="list-inside list-disc">
-          {posts.map((post) => (
-            <li key={post.url}>
-              <a className="underline" href={post.url} target="_blank" rel="noreferrer">
-                {post.title}
-              </a>
-            </li>
-          ))}
-        </ul>
-      )}
+      <p className="mb-8 max-w-2xl text-sm text-zinc-400">
+        Dernières publications Instagram — ajoute ou remplace les posts dans
+        <code className="mx-1 rounded bg-zinc-900 px-2 py-0.5 text-[0.8rem]">src/data/instagram.ts</code>
+        pour mettre à jour cette section.
+      </p>
+      <InstagramFeed posts={instagramPosts} />
     </div>
   );
 }
-
