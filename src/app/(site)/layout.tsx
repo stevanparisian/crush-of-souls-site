@@ -1,0 +1,28 @@
+import type { Metadata } from 'next';
+import type { ReactNode } from 'react';
+import '@/styles/globals.css';
+import { NavBar } from '@/components/NavBar';
+import { Footer } from '@/components/Footer';
+
+export const metadata: Metadata = {
+  title: 'Crush of Souls',
+  description: 'Site officiel — concerts, musique, news, media',
+  openGraph: {
+    title: 'Crush of Souls',
+    description: 'Post‑punk noir & brut.',
+  },
+};
+
+export default function SiteLayout({ children }: { children: ReactNode }) {
+  return (
+    <html lang="fr">
+      <body className="min-h-dvh bg-black text-zinc-100 antialiased">
+        <div className="mx-auto max-w-6xl px-4">
+          <NavBar />
+          <main className="py-10">{children}</main>
+          <Footer />
+        </div>
+      </body>
+    </html>
+  );
+}
