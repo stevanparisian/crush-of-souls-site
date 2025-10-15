@@ -6,6 +6,7 @@ Base applicative professionnelle pour le site officiel de Crush of Souls. Le pro
 - Layout partagé (NavBar/Footer) avec design noir & blanc, responsive et sticky navigation.
 - Pages prêtes : Home, Tour, Music, News, Media, Contact.
 - Modules utilitaires côté serveur (`src/lib/*.ts`) pour brancher Songkick, Spotify et YouTube.
+- Gestion manuelle des concerts via `src/data/events.ts`, fusionnée avec Songkick si dispo.
 - ISR configuré (`revalidate`) pour les pages connectées aux APIs externes.
 - Assets SEO de base (`public/logo.svg`, `public/og-image.jpg`) et métadonnées globales.
 
@@ -52,11 +53,13 @@ src/
 │  │  └─ media/page.tsx    # /media
 │  └─ contact/page.tsx     # /contact
 ├─ components/             # UI réutilisable (NavBar, Section, EventCard…)
-├─ lib/                    # Clients API côté serveur
+├─ data/events.ts          # Concerts saisis à la main
+├─ lib/                    # Clients & agrégateurs côté serveur
 └─ styles/globals.css      # Tailwind + palette sombre
 ```
 
 ## Intégrations API
+- `src/lib/events.ts` : fusionne concerts manuels + Songkick pour `/tour`.
 - `src/lib/songkick.ts` : récupère les concerts via `SONGKICK_*` (tente l’API si clé dispo, sinon scrape la page publique et remonte les derniers concerts à défaut d’annonces).
 - `src/lib/spotify.ts` : échange client credentials → releases Spotify.
 - `src/lib/youtube.ts` : recherche vidéos d’une chaîne ou requête.
@@ -78,9 +81,26 @@ Chaque module renvoie des données prêtes à mapper dans les pages (`Tour` util
 
 ## Roadmap suggérée
 1. Brancher Songkick avec les vraies clés et valider `/tour`.
-2. Intégrer Spotify (ID artiste) + design des releases sur `/music`.
+2. Saisir/mettre à jour les dates dans `src/data/events.ts`.
+3. Intégrer Spotify (ID artiste) + design des releases sur `/music`.
 3. Alimenter `/media` via YouTube (`searchVideos`) ou galerie statique.
 4. Construire module News (RSS, CMS headless ou saisie manuelle).
 5. Ajouter Sitemap/robots, analytics et éventuels formulaires (newsletter, merch).
+
+## Éditer les concerts manuellement
+
+Les dates visibles sur `/tour` proviennent d’abord de `src/data/events.ts`. Ajoute une entrée :
+
+```ts
+{
+  id: 'manual-2025-09-18-lille-aeronef',
+  date: '2025-09-18T20:00:00+02:00',
+  city: 'Lille, France',
+  venue: "L'Aéronef",
+  url: 'https://billetterie.exemple.com', // optionnel
+}
+```
+
+Le site classe automatiquement les dates à venir et affiche, s’il n’y en a plus, les derniers concerts connus (Songkick ou saisie manuelle). Pense à utiliser un `id` unique pour éviter les doublons.
 
 Prêt pour itérations créatives (animations, typographie custom, intégrations presse/merch, automation via scripts cron ou MCP).

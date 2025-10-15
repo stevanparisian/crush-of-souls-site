@@ -1,5 +1,5 @@
 import { EventCard } from '@/components/EventCard';
-import { getRecentEvents, getUpcomingEvents } from '@/lib/songkick';
+import { getRecentEvents, getUpcomingEvents } from '@/lib/events';
 
 export const revalidate = 1800;
 
