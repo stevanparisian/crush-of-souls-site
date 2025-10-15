@@ -12,6 +12,30 @@ export type Video = {
 export const videos: Video[] = [
   {
     id: 'YmMPMjCSxd0',
-    title: 'Crush of Souls – Clip officiel',
+    title: 'Crush of Souls – Souls Apart (Official Video)',
+  },
+  {
+    id: 'x8PB19u3NsY',
+    title: 'Crush of Souls – Touch From A Heartbeat (Official Video)',
+  },
+  {
+    id: 'Tgdo16p3a5I',
+    title: 'Crush of Souls – Cult Of Two (Official Video)',
+  },
+  {
+    id: 'EWIWy-6SM8M',
+    title: 'Crush of Souls – The Pure Weapon (Official Video)',
+  },
+  {
+    id: 'X1hpYBYXtvA',
+    title: 'Crush of Souls – Pain & Ecstasy (Official Video)',
+  },
+  {
+    id: 'nz153QUa1Ck',
+    title: 'Crush of Souls – Southern Boy (Official Video)',
+  },
+  {
+    id: 'XUTqD_AqWro',
+    title: 'Crush of Souls – X Lover (Official Visual)',
   },
 ];
