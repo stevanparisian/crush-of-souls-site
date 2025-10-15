@@ -57,7 +57,7 @@ src/
 ```
 
 ## Intégrations API
-- `src/lib/songkick.ts` : récupère les concerts via `SONGKICK_*` (tente l’API si clé dispo, sinon scrape la page publique).
+- `src/lib/songkick.ts` : récupère les concerts via `SONGKICK_*` (tente l’API si clé dispo, sinon scrape la page publique et remonte les derniers concerts à défaut d’annonces).
 - `src/lib/spotify.ts` : échange client credentials → releases Spotify.
 - `src/lib/youtube.ts` : recherche vidéos d’une chaîne ou requête.
 

@@ -16,12 +16,30 @@ type SongkickApiEvent = {
   uri?: string;
 };
 
+type ScrapedEvent = {
+  event: Event;
+  timestamp: number;
+};
+
+type ScrapeBuckets = {
+  upcoming: Event[];
+  past: Event[];
+};
+
 export async function getUpcomingEvents(): Promise<Event[]> {
   const viaApi = await fetchFromApi();
   if (viaApi.length > 0) return viaApi;
 
-  const viaScraping = await scrapeFromArtistPage();
-  return viaScraping;
+  const scraped = await scrapeFromArtistPage();
+  return scraped.upcoming;
+}
+
+export async function getRecentEvents(limit = 3): Promise<Event[]> {
+  const viaApi = await fetchFromApi();
+  if (viaApi.length > 0) return viaApi;
+
+  const scraped = await scrapeFromArtistPage();
+  return scraped.past.slice(0, limit);
 }
 
 async function fetchFromApi(): Promise<Event[]> {
@@ -49,8 +67,8 @@ async function fetchFromApi(): Promise<Event[]> {
   }
 }
 
-async function scrapeFromArtistPage(): Promise<Event[]> {
-  if (!ARTIST_ID) return [];
+async function scrapeFromArtistPage(): Promise<ScrapeBuckets> {
+  if (!ARTIST_ID) return { upcoming: [], past: [] };
 
   const artistUrl = `https://www.songkick.com/artists/${ARTIST_ID}-${ARTIST_SLUG}`;
 
@@ -62,14 +80,16 @@ async function scrapeFromArtistPage(): Promise<Event[]> {
       next: { revalidate: 1800 },
     });
 
-    if (!response.ok) return [];
+    if (!response.ok) return { upcoming: [], past: [] };
 
     const html = await response.text();
     const scriptRegex = /<script type="application\/ld\+json">([\s\S]*?)<\/script>/g;
     const now = new Date();
     const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
 
-    const deduped = new Map<string, Event>();
+    const deduped = new Set<string>();
+    const upcoming: ScrapedEvent[] = [];
+    const past: ScrapedEvent[] = [];
 
     for (const match of html.matchAll(scriptRegex)) {
       const raw = match[1]?.trim();
@@ -85,30 +105,44 @@ async function scrapeFromArtistPage(): Promise<Event[]> {
           const startDate: string = record.startDate;
           const isoDate = startDate.includes('T') ? startDate : `${startDate}T00:00:00Z`;
           const eventTime = new Date(isoDate).getTime();
-          if (Number.isNaN(eventTime) || eventTime < todayStart) continue;
+          if (Number.isNaN(eventTime)) continue;
 
           const url = typeof record.url === 'string' ? record.url : undefined;
           const id = url ?? `${isoDate}-${record?.location?.name ?? 'songkick-event'}`;
 
           if (deduped.has(id)) continue;
+          deduped.add(id);
 
-          deduped.set(id, {
-            id,
-            date: isoDate,
-            city: record?.location?.address?.addressLocality ?? '—',
-            venue: record?.location?.name ?? '—',
-            url,
-          });
+          const entry: ScrapedEvent = {
+            event: {
+              id,
+              date: isoDate,
+              city: record?.location?.address?.addressLocality ?? '—',
+              venue: record?.location?.name ?? '—',
+              url,
+            },
+            timestamp: eventTime,
+          };
+
+          if (eventTime >= todayStart) {
+            upcoming.push(entry);
+          } else {
+            past.push(entry);
+          }
         }
       } catch {
         // ignore malformed JSON blocks
       }
     }
 
-    return Array.from(deduped.values()).sort(
-      (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
-    );
+    upcoming.sort((a, b) => a.timestamp - b.timestamp);
+    past.sort((a, b) => b.timestamp - a.timestamp);
+
+    return {
+      upcoming: upcoming.map(({ event }) => event),
+      past: past.map(({ event }) => event),
+    };
   } catch {
-    return [];
+    return { upcoming: [], past: [] };
   }
 }
