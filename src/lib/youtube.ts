@@ -24,6 +24,7 @@ export async function searchVideos(channelIdOrQuery: string, options: SearchOpti
   const url = new URL('https://www.googleapis.com/youtube/v3/search');
   url.searchParams.set('part', 'snippet');
   url.searchParams.set('maxResults', String(options.maxResults ?? 12));
+  url.searchParams.set('key', KEY);
   if (options.type) url.searchParams.set('type', options.type);
   if (options.order) url.searchParams.set('order', options.order);
 
