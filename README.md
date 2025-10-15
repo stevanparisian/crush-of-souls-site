@@ -59,7 +59,7 @@ src/
 ```
 
 ## Intégrations API
-- `src/lib/events.ts` : fusionne concerts manuels + Songkick pour `/tour`.
+- `src/lib/events.ts` : fusionne concerts manuels + Songkick pour `/tour` (section dates à venir + archives complètes).
 - `src/lib/songkick.ts` : récupère les concerts via `SONGKICK_*` (tente l’API si clé dispo, sinon scrape la page publique et remonte les derniers concerts à défaut d’annonces).
 - `src/lib/spotify.ts` : échange client credentials → releases Spotify.
 - `src/lib/youtube.ts` : recherche vidéos d’une chaîne ou requête.
@@ -102,5 +102,7 @@ Les dates visibles sur `/tour` proviennent d’abord de `src/data/events.ts`. Aj
 ```
 
 Le site classe automatiquement les dates à venir et affiche, s’il n’y en a plus, les derniers concerts connus (Songkick ou saisie manuelle). Pense à utiliser un `id` unique pour éviter les doublons.
+
+Toutes les dates (à venir comme passées) sont visibles sur `/tour` — les concerts passés apparaissent dans la section « Archives ».
 
 Prêt pour itérations créatives (animations, typographie custom, intégrations presse/merch, automation via scripts cron ou MCP).

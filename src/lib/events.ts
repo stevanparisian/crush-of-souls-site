@@ -8,19 +8,26 @@ type SplitEvents = {
 };
 
 export async function getUpcomingEvents(): Promise<Event[]> {
-  const { upcoming: manualUpcoming } = splitManualEvents();
-  const songkickUpcoming = await getSongkickUpcoming();
-
-  const combined = mergeEvents([...manualUpcoming, ...songkickUpcoming]);
-  return combined.sort(sortByDateAsc);
+  const { upcoming } = await getEventsSplit();
+  return upcoming;
 }
 
 export async function getRecentEvents(limit = 3): Promise<Event[]> {
-  const { past: manualPast } = splitManualEvents();
-  const songkickRecent = await getSongkickRecent(limit);
+  const { past } = await getEventsSplit();
+  return past.slice(0, limit);
+}
 
-  const combined = mergeEvents([...manualPast, ...songkickRecent]);
-  return combined.sort(sortByDateDesc).slice(0, limit);
+export async function getEventsSplit(): Promise<SplitEvents> {
+  const { upcoming: manualUpcoming, past: manualPast } = splitManualEvents();
+  const [songkickUpcoming, songkickPast] = await Promise.all([
+    getSongkickUpcoming(),
+    getSongkickRecent(Number.POSITIVE_INFINITY),
+  ]);
+
+  const upcoming = mergeEvents([...manualUpcoming, ...songkickUpcoming]).sort(sortByDateAsc);
+  const past = mergeEvents([...manualPast, ...songkickPast]).sort(sortByDateDesc);
+
+  return { upcoming, past };
 }
 
 function splitManualEvents(): SplitEvents {
@@ -65,4 +72,3 @@ function sortByDateAsc(a: Event, b: Event) {
 function sortByDateDesc(a: Event, b: Event) {
   return new Date(b.date).getTime() - new Date(a.date).getTime();
 }
-
