@@ -8,6 +8,7 @@ Base applicative professionnelle pour le site officiel de Crush of Souls. Le pro
 - Modules utilitaires côté serveur (`src/lib/*.ts`) pour brancher Songkick, Spotify et YouTube.
 - Gestion manuelle des concerts via `src/data/events.ts`, fusionnée avec Songkick si dispo.
 - Intégration galerie Instagram gérée depuis `src/data/instagram.ts`.
+- Galerie vidéo YouTube maintenue dans `src/data/videos.ts`.
 - ISR configuré (`revalidate`) pour les pages connectées aux APIs externes.
 - Assets SEO de base (`public/logo.svg`, `public/og-image.jpg`) et métadonnées globales.
 
@@ -56,6 +57,7 @@ src/
 ├─ components/             # UI réutilisable (NavBar, Section, EventCard…)
 ├─ data/events.ts          # Concerts saisis à la main
 ├─ data/instagram.ts       # Posts Instagram intégrés dans /news
+├─ data/videos.ts          # Clips YouTube intégrés dans /media
 ├─ lib/                    # Clients & agrégateurs côté serveur
 └─ styles/globals.css      # Tailwind + palette sombre
 ```
@@ -85,10 +87,11 @@ Chaque module renvoie des données prêtes à mapper dans les pages (`Tour` util
 1. Brancher Songkick avec les vraies clés et valider `/tour`.
 2. Saisir/mettre à jour les dates dans `src/data/events.ts`.
 3. Mettre à jour les posts Instagram dans `src/data/instagram.ts`.
-4. Intégrer Spotify (ID artiste) + design des releases sur `/music`.
-5. Alimenter `/media` via YouTube (`searchVideos`) ou galerie statique.
-6. Construire module News (RSS, CMS headless ou saisie manuelle).
-7. Ajouter Sitemap/robots, analytics et éventuels formulaires (newsletter, merch).
+4. Mettre à jour les vidéos dans `src/data/videos.ts`.
+5. Intégrer Spotify (ID artiste) + design des releases sur `/music`.
+6. Alimenter `/media` via YouTube (`searchVideos`) ou galerie statique.
+7. Construire module News (RSS, CMS headless ou saisie manuelle).
+8. Ajouter Sitemap/robots, analytics et éventuels formulaires (newsletter, merch).
 
 ## Éditer les concerts manuellement
 
@@ -113,5 +116,12 @@ Toutes les dates (à venir comme passées) sont visibles sur `/tour` — les con
 - Renseigne la liste de posts dans `src/data/instagram.ts` en utilisant l’URL publique du post (`https://www.instagram.com/p/ID/`).
 - Optionnel : ajoute un champ `caption` pour afficher un texte sous l’embed.
 - La page `/news` convertit automatiquement ces liens en embeds officiels Instagram.
+
+## Actualiser les vidéos YouTube
+
+- Ajoute les clips/lives dans `src/data/videos.ts` en précisant l’identifiant de la vidéo (ex. pour
+  `https://www.youtube.com/watch?v=dQw4w9WgXcQ`, indique `dQw4w9WgXcQ`).
+- Optionnel : renseigne `title` pour afficher une légende sous le player.
+- La page `/media` affiche automatiquement ces vidéos dans une grille responsive.
 
 Prêt pour itérations créatives (animations, typographie custom, intégrations presse/merch, automation via scripts cron ou MCP).
