@@ -7,7 +7,7 @@ export type Video = {
 
 /**
  * Clips / lives YouTube intégrés sur la page Media.
- * Renseigne ici les IDs vidéo officiels de Crush of Souls.
+ * Sert de fallback manuel si l’API YouTube n’est pas configurée.
  */
 export const videos: Video[] = [
   {
@@ -15,4 +15,3 @@ export const videos: Video[] = [
     title: 'Remplace cet ID par un clip officiel.',
   },
 ];
-

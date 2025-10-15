@@ -40,6 +40,8 @@ SPOTIFY_CLIENT_SECRET=xxx
 
 # YouTube
 YOUTUBE_API_KEY=xxx
+YOUTUBE_CHANNEL_ID=UCxxxxxxx
+YOUTUBE_SEARCH_QUERY=Crush of Souls
 ```
 
 ## Structure
@@ -57,7 +59,7 @@ src/
 ├─ components/             # UI réutilisable (NavBar, Section, EventCard…)
 ├─ data/events.ts          # Concerts saisis à la main
 ├─ data/instagram.ts       # Posts / profil Instagram intégrés dans /news
-├─ data/videos.ts          # Clips YouTube intégrés dans /media
+├─ data/videos.ts          # Clips YouTube intégrés dans /media (fallback manuel)
 ├─ lib/                    # Clients & agrégateurs côté serveur
 └─ styles/globals.css      # Tailwind + palette sombre
 ```
@@ -65,6 +67,7 @@ src/
 ## Intégrations API
 - `src/lib/events.ts` : fusionne concerts manuels + Songkick pour `/tour` (section dates à venir + archives complètes).
 - `src/lib/songkick.ts` : récupère les concerts via `SONGKICK_*` (tente l’API si clé dispo, sinon scrape la page publique et remonte les derniers concerts à défaut d’annonces).
+- `src/lib/videos.ts` : récupère les vidéos YouTube (API + fallback manuel) pour la page `/media`.
 - `src/lib/spotify.ts` : échange client credentials → releases Spotify.
 - `src/lib/youtube.ts` : recherche vidéos d’une chaîne ou requête.
 
@@ -119,9 +122,10 @@ Toutes les dates (à venir comme passées) sont visibles sur `/tour` — les con
 
 ## Actualiser les vidéos YouTube
 
-- Ajoute les clips/lives dans `src/data/videos.ts` en précisant l’identifiant de la vidéo (ex. pour
-  `https://www.youtube.com/watch?v=dQw4w9WgXcQ`, indique `dQw4w9WgXcQ`).
-- Optionnel : renseigne `title` pour afficher une légende sous le player.
-- La page `/media` affiche automatiquement ces vidéos dans une grille responsive.
+- Renseigne `YOUTUBE_API_KEY` (+ `YOUTUBE_CHANNEL_ID`) pour afficher automatiquement toutes les vidéos
+  du compte officiel. À défaut, la recherche `YOUTUBE_SEARCH_QUERY` (par défaut "Crush of Souls") est utilisée.
+- Pour compléter ou remplacer les résultats, ajoute des clips manuels dans `src/data/videos.ts`
+  (ID vidéo + `title` optionnel).
+- La page `/media` fusionne l’API et les entrées manuelles et les affiche dans une grille responsive.
 
 Prêt pour itérations créatives (animations, typographie custom, intégrations presse/merch, automation via scripts cron ou MCP).
