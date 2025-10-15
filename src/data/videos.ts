@@ -11,7 +11,7 @@ export type Video = {
  */
 export const videos: Video[] = [
   {
-    id: 'VIDEO_ID_A_REMPLACER',
-    title: 'Remplace cet ID par un clip officiel.',
+    id: 'YmMPMjCSxd0',
+    title: 'Crush of Souls – Clip officiel',
   },
 ];
