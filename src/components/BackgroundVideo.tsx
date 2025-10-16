@@ -10,15 +10,23 @@ export function BackgroundVideo() {
     if (!video) return;
 
     const attemptPlay = () => {
+      video.currentTime = 0;
       void video.play().catch(() => {
-        // Ignore autoplay restrictions; video stays paused.
+        // Autoplay might still be blocked on some browsers; user interaction will start playback.
       });
     };
 
-    if (video.readyState >= 2) {
+    const onCanPlay = () => {
+      video.style.opacity = '1';
       attemptPlay();
+    };
+
+    video.load();
+
+    if (video.readyState >= 2) {
+      onCanPlay();
     } else {
-      video.addEventListener('canplay', attemptPlay, { once: true });
+      video.addEventListener('canplay', onCanPlay, { once: true });
     }
 
     const handleVisibility = () => {
@@ -37,7 +45,7 @@ export function BackgroundVideo() {
   return (
     <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
       <video
-        className="absolute inset-0 h-full w-full scale-110 object-cover"
+        className="absolute inset-0 h-full w-full scale-110 object-cover opacity-0 transition-opacity duration-700"
         autoPlay
         muted
         loop
@@ -47,10 +55,10 @@ export function BackgroundVideo() {
         ref={videoRef}
         poster="/og-image.jpg"
       >
-        <source src="/cos_pureweapon_video.mp4" type="video/mp4" />
+        <source src="/cos_pureweapon_video_compressed.mp4" type="video/mp4" />
       </video>
-      <div className="absolute inset-0 bg-black/40" />
-      <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-black/50 to-black" />
+      <div className="absolute inset-0 bg-black/20" />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/5 via-black/40 to-black/80" />
     </div>
   );
 }
