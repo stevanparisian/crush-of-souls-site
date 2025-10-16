@@ -4,11 +4,11 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 const links = [
-  { href: '/tour', label: 'Tour' },
-  { href: '/music', label: 'Music' },
-  { href: '/news', label: 'News' },
-  { href: '/media', label: 'Media' },
-  { href: '/contact', label: 'Contact' },
+  { href: '/tour', label: 'Agenda' },
+  { href: '/music', label: 'Discographie' },
+  { href: '/news', label: 'Actualités' },
+  { href: '/media', label: 'Media Room' },
+  { href: '/contact', label: 'Contact Pro' },
 ];
 
 export function NavBar() {
