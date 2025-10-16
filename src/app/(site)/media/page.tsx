@@ -5,7 +5,7 @@ export default async function MediaPage() {
   const mediaVideos = await getMediaVideos();
 
   return (
-    <div>
+    <div className="page-wrapper">
       <h1 className="mb-6 text-3xl font-bold uppercase tracking-wide">Media</h1>
       <p className="mb-8 max-w-2xl text-sm text-zinc-400">
         Clips, lives et visualisers issus de la chaîne YouTube officielle. Configure

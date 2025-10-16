@@ -7,7 +7,7 @@ export default async function TourPage() {
   const { upcoming, past } = await getEventsSplit();
 
   return (
-    <div>
+    <div className="tour-wrapper py-10">
       <h1 className="mb-6 text-3xl font-bold uppercase tracking-wide">Dates</h1>
       {upcoming.length === 0 ? (
         <p className="text-zinc-400">Aucune date annoncée pour le moment.</p>
