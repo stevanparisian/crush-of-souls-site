@@ -4,7 +4,6 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 const links = [
-  { href: '/', label: 'Home' },
   { href: '/tour', label: 'Tour' },
   { href: '/music', label: 'Music' },
   { href: '/news', label: 'News' },
@@ -18,10 +17,14 @@ export function NavBar() {
   return (
     <header className="sticky top-0 z-50 bg-black/70 backdrop-blur supports-[backdrop-filter]:bg-black/40">
       <nav className="flex items-center justify-between py-4">
-        <Link href="/" className="font-black tracking-wide text-xl">
-          Crush of Souls
-        </Link>
-        <ul className="flex gap-5 text-sm">
+        {pathname !== '/' ? (
+          <Link href="/" className="font-black tracking-wide text-xl">
+            Crush of Souls
+          </Link>
+        ) : (
+          <span />
+        )}
+        <ul className="flex flex-1 justify-center gap-5 text-sm">
           {links.map((link) => (
             <li key={link.href}>
               <Link
@@ -39,4 +42,3 @@ export function NavBar() {
     </header>
   );
 }
-

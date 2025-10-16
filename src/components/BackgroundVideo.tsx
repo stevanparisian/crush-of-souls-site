@@ -10,6 +10,12 @@ export function BackgroundVideo() {
     if (!video) return;
 
     const attemptPlay = () => {
+      video.muted = true;
+      video.autoplay = true;
+      video.loop = true;
+      video.playsInline = true;
+      video.setAttribute('muted', '');
+      video.setAttribute('playsinline', '');
       video.currentTime = 0;
       void video.play().catch(() => {
         // Autoplay might still be blocked on some browsers; user interaction will start playback.
@@ -17,7 +23,6 @@ export function BackgroundVideo() {
     };
 
     const onCanPlay = () => {
-      video.style.opacity = '1';
       attemptPlay();
     };
 
@@ -43,9 +48,9 @@ export function BackgroundVideo() {
   }, []);
 
   return (
-    <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
+    <div className="pointer-events-none fixed inset-0 -z-10 bg-black">
       <video
-        className="absolute inset-0 h-full w-full scale-110 object-cover opacity-0 transition-opacity duration-700"
+        className="block h-screen w-screen object-cover"
         autoPlay
         muted
         loop
@@ -57,8 +62,7 @@ export function BackgroundVideo() {
       >
         <source src="/cos_pureweapon_video_compressed.mp4" type="video/mp4" />
       </video>
-      <div className="absolute inset-0 bg-black/20" />
-      <div className="absolute inset-0 bg-gradient-to-b from-black/5 via-black/40 to-black/80" />
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/25 to-black/60" />
     </div>
   );
 }

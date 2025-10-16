@@ -17,9 +17,9 @@ export default function SiteLayout({ children }: { children: ReactNode }) {
   return (
     <>
       <BackgroundVideo />
-      <div className="relative mx-auto max-w-6xl px-4">
+      <div className="relative z-10 mx-auto flex min-h-screen max-w-6xl flex-col px-4">
         <NavBar />
-        <main className="py-10">{children}</main>
+        <main className="flex-1 py-10">{children}</main>
         <Footer />
       </div>
     </>
